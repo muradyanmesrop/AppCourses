@@ -2,7 +2,6 @@
 using AppCourses.Core.Db;
 using AppCourses.Core.Db.Entities;
 using AppCourses.Core.Exceptions;
-using AppCourses.Core.Models.Abstract;
 using AppCourses.Core.Models.Add;
 using AppCourses.Core.Models.View;
 
@@ -43,7 +42,7 @@ namespace AppCourses.BL.Operations
         {
             if (id == null || userModel == null)
             {
-                throw new LogicException("Duplicate e-mail");
+                throw new LogicException("Key/updating data is null or empty");
             }
             User user = userModel;
             user.UserId = id;
@@ -60,6 +59,10 @@ namespace AppCourses.BL.Operations
 
         public void RenoveUser(int? id)
         {
+            if (id == null)
+            {
+                throw new LogicException("Key is null or empty");
+            }
             User user = _db.Users.Find(id);
             _db.Remove(user);
             _db.SaveChanges();

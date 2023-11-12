@@ -1,6 +1,8 @@
 ﻿using AppCourses.Core.Abstractions;
 using AppCourses.Core.Db;
 using AppCourses.Core.Db.Entities;
+using AppCourses.Core.Exceptions;
+using AppCourses.Core.Models.Abstract;
 using AppCourses.Core.Models.Add;
 using AppCourses.Core.Models.View;
 
@@ -16,6 +18,10 @@ namespace AppCourses.BL.Operations
         }
         public CourseViewModel AddCourse(CourseAddModel courseModel)
         {
+            if(courseModel == null)
+            {
+                throw new LogicException("Duplicate e-mail");
+            }
             Course course = courseModel;
             _db.Courses.Add(course);
             _db.SaveChanges();
@@ -25,6 +31,10 @@ namespace AppCourses.BL.Operations
 
         public CourseViewModel EditCourse(int? id, CourseAddModel courseModel)
         {
+            if (id == null || courseModel == null)
+            {
+                throw new LogicException("Duplicate e-mail");
+            }
             Course course = courseModel;
             course.CourseId = id;
             _db.Update(course);
@@ -41,6 +51,10 @@ namespace AppCourses.BL.Operations
 
         public void RemoveCourse(int? id)
         {
+            if (id == null)
+            {
+                throw new LogicException("Duplicate e-mail");
+            }
             Course course = _db.Courses.Find(id);
             _db.Remove(course);
             _db.SaveChanges();

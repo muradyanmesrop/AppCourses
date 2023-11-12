@@ -1,6 +1,8 @@
 ﻿using AppCourses.Core.Abstractions;
 using AppCourses.Core.Db;
 using AppCourses.Core.Db.Entities;
+using AppCourses.Core.Exceptions;
+using AppCourses.Core.Models.Abstract;
 using AppCourses.Core.Models.View;
 
 namespace AppCourses.BL.Operations
@@ -17,6 +19,11 @@ namespace AppCourses.BL.Operations
 
         public GroupViewModel AddGroup(int? userId, int? courseId)
         {
+            if (userId == null || courseId == null)
+            {
+                throw new LogicException("Keys not is null/empty");
+            }
+
             Group group = new Group { UserId = userId, CourseId = courseId };
             _db.Groups.Add(group);
             _db.SaveChanges();
@@ -51,6 +58,10 @@ namespace AppCourses.BL.Operations
 
         public void RemoveGroup(int? userId, int? courseId)
         {
+            if (userId == null || courseId == null)
+            {
+                throw new LogicException("Keys not is null/empty");
+            }
             Group group = _db.Groups.Find(userId, courseId);
             _db.Groups.Remove(group);
             _db.SaveChanges();
