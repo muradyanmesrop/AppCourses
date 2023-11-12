@@ -11,7 +11,7 @@ namespace AppCourses.Auth.Options
         public double? TokenLifeTime { get; set; }
         public SymmetricSecurityKey GetSymmetricSecurityKey()
         {
-            return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Secret));
+            return new SymmetricSecurityKey(Encoding.UTF32.GetBytes(Secret));
         }
     }
 }
